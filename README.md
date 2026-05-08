@@ -36,6 +36,8 @@ Key Features:
 
          dwshare
 
+  5. Click 'Connect' and you'll get the dialog with an IP address as on the second screenshot. Now open your phone (should be connected to the same network), open a web browser on your phone, type in the IP address you see in the dialogue and (if firewall is disabled) you'll get all the files from your PC shown in your browser on your phone. You can download them into your phone. Note it downloads files only, if you want to download a folder then you should archive it first. 
+
 # NOTE:
   1) All your devices should be connected to the same network.
   2) If you have any firewall installed then either first disable it or if you install [dwexec](https://github.com/DiogenesN/dwexec). and your firewall is ufw, then simply click on 'Disable firewall' and it will disable ufw automatically.
