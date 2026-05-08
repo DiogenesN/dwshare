@@ -4,15 +4,16 @@ dwshare is a simple, no-nonsense utility designed for Linux users (optimized for
 It bridges the gap between the power of the terminal and the convenience of a GUI. By utilizing Python’s built-in HTTP server, it turns any directory into a temporary local website accessible by any device with a browser.
 
 Key Features:
-One-Click Sharing: Instantly spins up a local server and displays a large, easy-to-read URL/IP address for your mobile device.
 
-Integrated Firewall Handling: Includes logic to automatically disable/enable the ufw firewall (via [dwexec](https://github.com/DiogenesN/dwexec)) to ensure the connection isn't blocked by system security settings.
+  - One-Click Sharing: Instantly spins up a local server and displays a large, easy-to-read URL/IP address for your mobile device.
 
-Zero-Footprint: Uses standard system tools. No heavy background services or proprietary protocols are required.
+  - Integrated Firewall Handling: Includes logic to automatically disable/enable the ufw firewall (via [dwexec](https://github.com/DiogenesN/dwexec).) to ensure the connection isn't blocked by system security settings.
 
-Privacy-Focused: Transfers occur entirely over your local Wi-Fi network. Your data never touches the internet.
+  - Zero-Footprint: Uses standard system tools. No heavy background services or proprietary protocols are required.
 
-Safety First: Features a "Close connection" trigger that kills the Python process immediately, ensuring your files aren't left exposed on the network when you're finished.
+  - Privacy-Focused: Transfers occur entirely over your local Wi-Fi network. Your data never touches the internet.
+
+  - Safety First: Features a "Close connection" trigger that kills the Python process immediately, ensuring your files aren't left exposed on the network when you're finished.
 
 # Installation/Usage
   1. Install the following libs:
@@ -21,8 +22,7 @@ Safety First: Features a "Close connection" trigger that kills the Python proces
 	     grep
 	     python3
 	     coreutils
-	     
-	optional but recommended: [dwexec](https://github.com/DiogenesN/dwexec)
+  optional but recommended: [dwexec](https://github.com/DiogenesN/dwexec).
 
   2. Open a terminal and run:
 
@@ -37,8 +37,8 @@ Safety First: Features a "Close connection" trigger that kills the Python proces
          dwshare
 
 # NOTE:
-	1) All your devices should be connected to the same network.
-	2) If you have any firewall installed then either first disable it or if you install [dwexec](https://github.com/DiogenesN/dwexec) and your firewall is ufw, then simply click on 'Disable firewall' and it will disable ufw automatically.
+  1) All your devices should be connected to the same network.
+  2) If you have any firewall installed then either first disable it or if you install [dwexec](https://github.com/DiogenesN/dwexec). and your firewall is ufw, then simply click on 'Disable firewall' and it will disable ufw automatically.
 
 # Screenshots
  On the first app launch:
