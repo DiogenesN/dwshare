@@ -1,0 +1,117 @@
+#!/bin/bash
+
+# App Name: dwshare
+# Description: A simple GUI wrapper to share files over a local network using Python's 
+#              HTTP server and YAD. It includes quick firewall management for UFW.
+# Dependencies: yad, python3, coreutils, grep, ufw (optional), dwexec (optional)
+
+# Function to stop the server
+stop_server() {
+    if [ -n "$SERVER_PID" ]; then
+        kill "$SERVER_PID" 2>/dev/null
+        wait "$SERVER_PID" 2>/dev/null
+    fi
+    # Backup cleanup using port 8000
+    fuser -k 8000/tcp 2>/dev/null
+}
+
+# Ensure server stops if script is closed unexpectedly
+trap stop_server EXIT
+
+run_server() {
+    # Start server in background
+    python3 -m http.server 8000 &
+    SERVER_PID=$!
+    
+    sleep 2
+    
+    # Get local IP (first one listed)
+    IP_ADDR=$(hostname -I | awk '{print $1}')
+    
+    yad --title="Connection Active - dwshare" \
+        --window-icon="network-workgroup" \
+        --info \
+		--center \
+		--text-align=center \
+		--buttons-layout=center \
+        --width=400 \
+        --text="<span font='12'>On your other device (phone, tablet) open the browser and enter the following address:</span>\n\n<span font='18' weight='bold'>http://$IP_ADDR:8000</span>" \
+        --button="Close connection:0"
+
+    stop_server
+}
+
+disable_firewall() {
+    if command -v dwexec >/dev/null 2>&1; then
+        if [ -f "/usr/sbin/ufw" ]; then
+            dwexec /usr/sbin/ufw disable
+            if [ $? -eq 0 ]; then
+                run_server
+            else
+                yad \
+                --error \   
+				--center \
+				--text-align=center \
+				--buttons-layout=center \
+				--text="Failed to disable UFW via dwexec."
+            fi
+        else
+            yad \
+			--center \
+			--text-align=center \
+			--buttons-layout=center \
+			--info \
+			--text="Could not disable the firewall 1, you need to manually disable the firewall (UFW not found)."
+        fi
+    else
+        yad \
+		--center \
+		--text-align=center \
+		--buttons-layout=center \
+		--info \
+		--text="Could not disable the firewall 2, you need to manually disable the firewall (dwexec not found)."
+    fi
+}
+
+enable_firewall() {
+    if command -v dwexec >/dev/null 2>&1 && [ -f "/usr/sbin/ufw" ]; then
+        dwexec /usr/sbin/ufw enable
+        yad \
+		--center \
+		--text-align=center \
+		--buttons-layout=center \
+		--info \
+		--text="Firewall re-enabled." --timeout=2
+    else
+        yad \
+		--center \
+		--text-align=center \
+		--buttons-layout=center \
+		--error \
+		--text="dwexec or ufw not found. Cannot re-enable."
+    fi
+}
+
+# Main Loop
+while true; do
+    ACTION=$(yad --title="dwshare" \
+        --window-icon="network-transmit-receive" \
+        --width=500 \
+		--center \
+		--text-align=center \
+		--buttons-layout=center \
+        --text="If you do not have any firewall installed on your system or it is disabled then click on 'Connect', if not sure then click 'Disable firewall'." \
+        --button="Connect":1 \
+        --button="Disable firewall":2 \
+        --button="Re-enable firewall":3 \
+        --button="Close":4)
+
+    RET=$?
+
+    case $RET in
+        1) run_server ;;
+        2) disable_firewall ;;
+        3) enable_firewall ;;
+        *) exit 0 ;;
+    esac
+done
