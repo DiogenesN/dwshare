@@ -49,6 +49,9 @@ Key Features:
  Successfully connected:
 ![Alt text](https://raw.githubusercontent.com/DiogenesN/dwshare/main/2.png)
 
+This is what it looks like when browsing your PC files from your phone:
+![Alt text](https://raw.githubusercontent.com/DiogenesN/dwshare/main/3.jpg)
+
 That's it!
 
 # Support
